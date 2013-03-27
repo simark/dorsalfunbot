@@ -1,0 +1,12 @@
+irc:
+  server: irc.oftc.net
+  nick: DorsalFunBot
+  user: DorsalFunBot
+
+channels:
+- "#dorsal-food"
+
+modules:
+  - name: lightbotactions
+    class: LightbotActions
+    action: light
