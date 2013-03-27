@@ -15,7 +15,7 @@ class DorsalFunBot(lurklib.Client):
 			modules = {}
 			for module in moduleslist:
 				try:
-					if module["action"] in modules:
+					if module["action"] not in modules:
 						modinfo = imp.find_module(module["name"])
 						modload = imp.load_module(module["name"], *modinfo)
 						modules[module["action"]] = getattr(modload, module["class"])(self)
