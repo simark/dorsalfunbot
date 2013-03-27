@@ -10,3 +10,6 @@ modules:
   - name: lightbotactions
     class: LightbotActions
     action: light
+  - name: fun
+    class: Fun
+    action: fun
