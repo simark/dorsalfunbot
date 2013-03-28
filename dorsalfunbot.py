@@ -39,7 +39,10 @@ class DorsalFunBot(lurklib.Client):
 		action = msg.split(maxsplit=1)[0]
 
 		if action[0] == "!" and action[1:] in self.modules:
-			self.modules[action[1:]].on_chanmsg(from_, chan, msg)
+			try:
+				self.modules[action[1:]].on_chanmsg(from_, chan, msg)
+			except Exception as e:
+				print("Error in module: " + str(e))
 
 	def on_privnotice(self, from_, notice):
 		if notice == "rehash":
