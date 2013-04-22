@@ -33,6 +33,8 @@ class LightbotActions:
 			for t in sorted(valid_target.keys()):
 				value = "on" if GPIO.input(valid_target[t]) else "off"
 				self.irc.privmsg(chan, "Light " + str(t) + ": " + value)
+			self.irc.privmsg(chan, "Light local: " + ("on" if self.get_plafond_status() else "off"))
+			
 		elif len(parts) == 1:
 			t = parts[0]
 			if t in valid_target:
@@ -55,7 +57,7 @@ class LightbotActions:
 			self.last_toggle = t
 			subprocess.call(["/home/simark/avr/serieViaUSB/serieViaUSB", "-e", "-f", "/home/simark/avr/serieViaUSB/fichier"])
 			self.irc.privmsg(chan, "Your wish is my command")
-			time.sleep(3)
+			#time.sleep(1)
 			if self.get_plafond_status():
 				self.irc.privmsg(chan, "Light is now on")
 			else:
