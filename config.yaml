@@ -19,3 +19,6 @@ modules:
   - name: music
     class: Music
     action: music
+  - name: crazy
+    class: Crazy
+    action: crazy
