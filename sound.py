@@ -3,8 +3,20 @@ import subprocess
 class Sound:
 	def __init__(self, irc):
 		self.irc = irc
-		self.people = {"scientist":"yannick.wav","simark":"good2.wav","XaF":"raphael.wav","suchakra":"suchakra.wav"}
-		self.text = {"good":"good2.wav", "super":"superbe1.wav"}
+		self.people = {
+			"scientist":"yannick.wav",
+			"simark":"good2.wav",
+			"XaF":"raphael.wav",
+			"suchakra":"suchakra.wav",
+			"dejadead":"superbe.wav",
+			"TheMatthew":"woop.wav"
+		}
+		self.text = {
+			"good":"good2.wav",
+			"super":"superbe1.wav",
+			"lol":"hahahahahaha2.wav",
+			"haha":"hahahahahaha2.wav"
+		}
 
 	def on_chanmsg(self, from_, chan, msg):
 		if from_[0] in self.people:
