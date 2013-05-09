@@ -3,6 +3,7 @@ import lightbotactions
 import imp
 import yaml
 import sys
+import subprocess
 
 class DorsalFunBot(lurklib.Client):
 	def __init__(self, config):
@@ -15,13 +16,14 @@ class DorsalFunBot(lurklib.Client):
 			modules = {}
 			for module in moduleslist:
 				try:
-					if module["action"] not in modules:
-						modinfo = imp.find_module(module["name"])
-						modload = imp.load_module(module["name"], *modinfo)
-						modules[module["action"]] = getattr(modload, module["class"])(self)
-						print("Loaded module " + module['name'])
-					else:
-						print("Module "+module["name"]+" skipped as its action is already registered.")
+					action = module["action"] if "action" in module else ""
+					if action not in modules:
+						modules[action] = []
+
+					modinfo = imp.find_module(module["name"])
+					modload = imp.load_module(module["name"], *modinfo)
+					modules[action].append(getattr(modload, module["class"])(self))
+					print("Loaded module " + module['name'])
 				except ImportError as e:
 					print(str(e))
 			self.modules = modules
@@ -36,13 +38,20 @@ class DorsalFunBot(lurklib.Client):
 			self.join_(chan)
 
 	def on_chanmsg(self, from_, chan, msg):
+		if "" in self.modules:
+			for module in self.modules[""]:
+				try:
+					module.on_chanmsg(from_, chan, msg)
+				except Exception as e:
+					print("Error in module: " + str(e))
 		action = msg.split(maxsplit=1)[0]
 
 		if action[0] == "!" and action[1:] in self.modules:
-			try:
-				self.modules[action[1:]].on_chanmsg(from_, chan, msg)
-			except Exception as e:
-				print("Error in module: " + str(e))
+			for module in self.modules[action[1:]]:
+				try:
+					module.on_chanmsg(from_, chan, msg)
+				except Exception as e:
+					print("Error in module: " + str(e))
 
 	def on_privnotice(self, from_, notice):
 		if notice == "rehash":
