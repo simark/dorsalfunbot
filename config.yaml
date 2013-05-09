@@ -22,3 +22,5 @@ modules:
   - name: crazy
     class: Crazy
     action: crazy
+  - name: sound
+    class: Sound
