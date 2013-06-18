@@ -16,18 +16,40 @@ class Crazy:
 			return
 
 		level_str = parts[1]
+		topic = self.irc.topic(chan)[0]
+
 		try:
-			level = int(level_str)
-			if level < 0 or level > self.max_lvl:
+			current_level = len(re.findall("\[(=*)-*\]", topic)[0])
+		except IndexError:
+			current_level = 0
+			not_found = True
+
+		if level_str == "++":
+			if current_level < self.max_lvl:
+				level = current_level + 1
+			else:
+				level = current_level
+		elif level_str == "--":
+			if current_level > 0:
+				level = current_level - 1
+			else:
+				level = current_level
+		else:
+
+			try:
+				level = int(level_str)
+				if level < 0 or level > self.max_lvl:
+					self.usage(chan, from_)
+					return
+			except ValueError:
 				self.usage(chan, from_)
-				return
-			
-			topic = self.irc.topic(chan)[0]
-			crazy_str = "[" + "=" * level  + "-" * (self.max_lvl - level) + "]"
-			new_topic = re.sub("(\[=+-+\]|\[=+\]|\[-+\])", crazy_str, topic)
-			#self.irc.privmsg(chan, "New topic would be " + new_topic)
+				return		
+		crazy_str = "[" + "=" * level  + "-" * (self.max_lvl - level) + "]"
+		new_topic = re.sub("(\[=+-+\]|\[=+\]|\[-+\])", crazy_str, topic)
+		#self.irc.privmsg(chan, "New topic would be " + new_topic)
+		try:
 			self.irc.topic(chan, new_topic)
-		except ValueError:
-			self.usage(chan, from_)
-			return
+		except ChanOPrivsNeeded:
+			self.irc.privmsg(chan, "I require OP, OP, OP")
+
 

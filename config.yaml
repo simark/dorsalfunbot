@@ -2,6 +2,9 @@ irc:
   server: irc.oftc.net
   nick: DorsalFunBot
   user: DorsalFunBot
+  encoding: latin
+  tls: False
+  #tls_verify: False
 
 channels:
 - "#dorsal-fun"

@@ -44,14 +44,17 @@ class DorsalFunBot(lurklib.Client):
 					module.on_chanmsg(from_, chan, msg)
 				except Exception as e:
 					print("Error in module: " + str(e))
-		action = msg.split(maxsplit=1)[0]
+		try:
+			action = msg.split(maxsplit=1)[0]
 
-		if action[0] == "!" and action[1:] in self.modules:
-			for module in self.modules[action[1:]]:
-				try:
-					module.on_chanmsg(from_, chan, msg)
-				except Exception as e:
-					print("Error in module: " + str(e))
+			if action[0] == "!" and action[1:] in self.modules:
+				for module in self.modules[action[1:]]:
+					try:
+						module.on_chanmsg(from_, chan, msg)
+					except Exception as e:
+						print("Error in module: " + str(e))
+		except IndexError:
+			pass
 
 	def on_privnotice(self, from_, notice):
 		if notice == "rehash":
