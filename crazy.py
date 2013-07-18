@@ -1,4 +1,5 @@
 import re
+import lurklib
 
 class Crazy:
 	def __init__(self, irc):
@@ -49,7 +50,6 @@ class Crazy:
 		#self.irc.privmsg(chan, "New topic would be " + new_topic)
 		try:
 			self.irc.topic(chan, new_topic)
-		except ChanOPrivsNeeded:
+		except lurklib.exceptions._Exceptions.ChanOPrivsNeeded as e:
 			self.irc.privmsg(chan, "I require OP, OP, OP")
-
 

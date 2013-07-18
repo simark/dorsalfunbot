@@ -1,0 +1,19 @@
+config:
+ sounddir: /home/simark/audio_sample
+ default_people_cooldown: 900
+ default_word_cooldown: 5
+
+people:
+ scientist: yannick.wav
+ simark: good2.wav
+ XaF: raphael.wav
+ suchakra: suchakra.wav
+ dejadead: francois.wav
+ TheMatthew: woop.wav
+
+words:
+ good: good2.wav
+ super: superbe.wav
+ lol: hahahahahaha2.wav
+ haha: hahahahahaha2.wav
+ mange: graine.wav

@@ -1,32 +1,24 @@
 import subprocess
 import time
+import yaml
 
 class Sound:
 	def __init__(self, irc):
+		with open("sound.yaml") as configfile:
+			self.config = yaml.load(configfile)
+
 		self.irc = irc
-		self.people = {
-			"scientist":"yannick.wav",
-			"simark":"good2.wav",
-			"XaF":"raphael.wav",
-			"suchakra":"suchakra.wav",
-			"dejadead":"francois.wav",
-			"TheMatthew":"woop.wav"
-		}
+		self.people = self.config["people"]
 		self.people_cooldown = {}
 		self.people_lastuse = {}
 		for person in self.people:
-			self.people_cooldown[person] = 900
+			self.people_cooldown[person] = self.config["config"]["default_people_cooldown"]
 			self.people_lastuse[person] = time.time()
-		self.text = {
-			"good":"good2.wav",
-			"super":"superbe.wav",
-			"lol":"hahahahahaha2.wav",
-			"haha":"hahahahahaha2.wav"
-		}
+		self.text = self.config["words"]
 		self.text_cooldown = {}
 		self.text_lastuse = {}
 		for word in self.text:
-			self.text_cooldown[word] = 5
+			self.text_cooldown[word] = self.config["config"]["default_word_cooldown"]
 			self.text_lastuse[word] = time.time()
 
 	def on_chanmsg(self, from_, chan, msg):
@@ -37,7 +29,7 @@ class Sound:
 				subprocess.call(["aplay", "/home/simark/audio_samples/"+self.people[from_[0]]])
 				self.people_lastuse[from_[0]] = current_time
 		for word in self.text:
-			if word in msg:
+			if word in msg.lower():
 				if current_time > (self.text_lastuse[word] + self.text_cooldown[word]):
 					subprocess.call(["aplay", "/home/simark/audio_samples/"+self.text[word]])
 					self.text_lastuse[word] = current_time
