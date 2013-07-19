@@ -32,6 +32,15 @@ class DorsalFunBot(lurklib.Client):
 			print(str(e))
 			return False
 
+	def unload_modules(self):
+		for action in self.modules:
+			for module in self.modules[action]:
+				try:
+					module.dispose()
+					print("Disposed module "+module.__class__.__name__)
+				except Exception as e:
+					pass
+
 	def on_connect(self):
 		print("connected")
 		for chan in config['channels']:
@@ -62,7 +71,9 @@ class DorsalFunBot(lurklib.Client):
 			if not config:
 				self.notice(from_[0], "Error loading config file, no rehash has been done")
 				return
-			
+
+			self.unload_modules()
+
 			if self.load_modules(config['modules']):
 				self.notice(from_[0], "rehash has been done")
 			else:
