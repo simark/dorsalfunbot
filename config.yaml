@@ -27,3 +27,6 @@ modules:
     action: crazy
   - name: sound
     class: Sound
+  - name: cafe
+    class: Cafe
+    action: menu
