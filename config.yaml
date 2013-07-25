@@ -16,9 +16,6 @@ modules:
   - name: fun
     class: Fun
     action: fun
-  - name: help
-    class: Help
-    action: help
   - name: music
     class: Music
     action: music

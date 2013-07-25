@@ -5,6 +5,9 @@ class Music:
 	def __init__(self, irc):
 		self.irc = irc
 
+	def halp(self):
+		return ["!music current", "!music youtube <youtube-link>"]
+
 	def action_current(self, from_, chan, parts):
 		client = mpd.MPDClient()
 		client.connect('localhost', 6600, timeout = 4)

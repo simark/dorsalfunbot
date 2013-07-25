@@ -56,7 +56,24 @@ class DorsalFunBot(lurklib.Client):
 		try:
 			action = msg.split(maxsplit=1)[0]
 
-			if action[0] == "!" and action[1:] in self.modules:
+			helps = {}
+			if action == "!help":
+				for action in self.modules:
+					for module in self.modules[action]:
+						try:
+							halp = module.halp()
+							if not isinstance(halp, list):
+								halp = [halp]
+							helps[module.__class__.__name__] = halp
+						except Exception as e:
+							print("Error in module help: " + str(e))
+
+				for m in helps:
+					self.privmsg(from_[0], m)
+					for msg in helps[m]:
+						self.privmsg(from_[0], "  " + str(msg))
+
+			elif action[0] == "!" and action[1:] in self.modules:
 				for module in self.modules[action[1:]]:
 					try:
 						module.on_chanmsg(from_, chan, msg)
