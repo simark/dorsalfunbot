@@ -4,6 +4,9 @@ import imp
 import yaml
 import sys
 import subprocess
+import os
+import signal
+
 
 class DorsalFunBot(lurklib.Client):
 	def __init__(self, config):
@@ -78,7 +81,7 @@ class DorsalFunBot(lurklib.Client):
 					try:
 						module.on_chanmsg(from_, chan, msg)
 					except Exception as e:
-						print("Error in module: " + str(e))
+						print("Error in module "+module.__class__.__name__+": " + str(e))
 		except IndexError:
 			pass
 
@@ -121,6 +124,31 @@ if __name__ == '__main__':
 	config = load_config()
 	if not config:
 		sys.exit(1)
+	
+	pidfile = "/var/run/dorsalfunbot.pid"
 
+	try:
+		with open(pidfile, "r") as f:
+			pid = int(f.read().strip())
+			os.kill(pid, 0)
+			print("Le bot est deja lance (pid %d)" %(pid))
+			sys.exit(0)
+	except IOError as e:
+		print("Le fichier pid n'existe pas, go")
+	except OSError as e:
+		print("Le pid dans le fichier pid n'existe pas, go")
+	except ValueError as e:
+		print("Le fichier pid contient de la cochonnerie, go")
+
+
+	with open(pidfile, "w") as f:
+		pid = os.getpid()
+		f.write(str(pid))
+	
 	bot = DorsalFunBot(config=config)
-	bot.mainloop()
+	while True:
+		try:
+			bot.mainloop()
+		except InterruptedError as e:
+			pass
+
