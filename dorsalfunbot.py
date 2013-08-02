@@ -1,5 +1,4 @@
 import lurklib
-import lightbotactions
 import imp
 import yaml
 import sys
