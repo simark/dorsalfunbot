@@ -1,6 +1,5 @@
 import httplib2
 import re
-import codecs
 
 class Meteo:
 	def __init__(self, irc):
@@ -20,7 +19,7 @@ class Meteo:
 	def _get_part(regex, content):
 		m = re.search(regex, content)
 		if (m == None):
-			raise
+			raise RuntimeError('aucun match d\'expression régulière')
 		
 		return m.group(1).strip()
 	
@@ -34,7 +33,7 @@ class Meteo:
 			h = httplib2.Http()
 			resp, content = h.request('http://meteo.gc.ca/city/pages/qc-147_metric_f.html')
 			if (resp.status != 200):
-				raise
+				raise RuntimeError('le statut de réponse HTTP n\'est pas 200')
 			content = content.decode('utf-8')
 			
 			# température (°C)
@@ -63,4 +62,4 @@ class Meteo:
 			return None
 
 	def halp(self):
-		return "conditions météorologiques actuelle";
+		return "!meteo : rapporte les conditions météorologiques actuelles de Montréal";
