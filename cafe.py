@@ -56,16 +56,19 @@ class Cafe:
 		self.irc.privmsg("#dorsal-fun", "C'est le temps de manger!")
 
 	def action_getmenu(self, from_, chan, parts):
+		menu = None
+		s = "Je ne comprends pas :("
 		jours = {"lundi": 0, "mardi": 1, "mercredi": 2, "jeudi": 3, "vendredi": 4, "samedi": 5, "dimanche": 6}
-		if len(parts) > 0 and parts[0] in jours:
-			menu = ObtainTodaysMenu(jours[parts[0]])
+		if len(parts) > 0:
+			if parts[0] in jours:
+				menu = ObtainTodaysMenu(jours[parts[0]])
+			elif parts[0] == "ericsson":
+				s = "Club sandwich!"
 		else:
 			menu = ObtainTodaysMenu()
 
 		if menu:
 			s = ', '.join([hey + ": " + ho for (hey, ho) in menu])
-		else:
-			s = "Rien a manger!"
 
 		#Replace unicode apostrophe with latin-1 compatible
 		s.replace("\u2019", "'")
