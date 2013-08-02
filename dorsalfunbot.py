@@ -132,10 +132,10 @@ if __name__ == '__main__':
 			os.kill(pid, 0)
 			print("Le bot est deja lance (pid %d)" %(pid))
 			sys.exit(0)
-	except IOError as e:
-		print("Le fichier pid n'existe pas, go")
-	except OSError as e:
+	except ProcessLookupError as e:
 		print("Le pid dans le fichier pid n'existe pas, go")
+	except IOError as e:
+		print("Le fichier pid n'existe pas, go " + str(e))
 	except ValueError as e:
 		print("Le fichier pid contient de la cochonnerie, go")
 
@@ -143,7 +143,7 @@ if __name__ == '__main__':
 	with open(pidfile, "w") as f:
 		pid = os.getpid()
 		f.write(str(pid))
-	
+
 	bot = DorsalFunBot(config=config)
 	while True:
 		try:
