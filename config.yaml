@@ -27,3 +27,6 @@ modules:
   - name: cafe
     class: Cafe
     action: menu
+  - name: meteo
+    class: Meteo
+    action: meteo
