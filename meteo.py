@@ -10,10 +10,10 @@ class Meteo:
 		if (meteo == None):
 			self.irc.privmsg(chan, "impossible d'obtenir la météo...")
 		else:
-			self.irc.privmsg(chan, '{} °C ({}) - {}'.format(meteo['temp'], meteo['tend'], meteo['cond']))
+			self.irc.privmsg(chan, '{} °C - {}'.format(meteo['temp'], meteo['cond']))
 			self.irc.privmsg(chan, '    humidité :   {} %'.format(meteo['humid']))
 			self.irc.privmsg(chan, '    vent :       {} km/h'.format(meteo['wind']))
-			self.irc.privmsg(chan, '    pression :   {} kPa'.format(meteo['press']))
+			self.irc.privmsg(chan, '    pression :   {} kPa ({})'.format(meteo['press'], meteo['tend']))
 			self.irc.privmsg(chan, '    visibilité : {} km'.format(meteo['vis']))
 	
 	def _get_part(regex, content):
