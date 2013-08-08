@@ -13,7 +13,7 @@ def EatSpaces(s):
 
 	return s.strip()
 
-def ObtainTodaysMenu(today = datetime.datetime.now().weekday()):
+def ObtainTodaysMenu(today):
 	conn = http.client.HTTPConnection("www.polymtl.ca")
 	req = conn.request("GET", "/vie/cafe/")
 	page = conn.getresponse().read()
@@ -48,12 +48,18 @@ class Cafe:
 
 
 	def dispose(self):
+		self.scheduler.clear()
 		self.cease.set()
 		pass
 
 	def print_manger(self):
-
+		now = datetime.datetime.now()
+		now = now.strftime("%Y-%m-%d %H:%M:%S")
+		print(now + " JE VEUX MANGER!")
 		self.irc.privmsg("#dorsal-fun", "C'est le temps de manger!")
+		now = datetime.datetime.now()
+		now = now.strftime("%Y-%m-%d %H:%M:%S")
+		print(now + " OMNOMNOM")
 
 	def action_getmenu(self, from_, chan, parts):
 		menu = None
@@ -65,7 +71,7 @@ class Cafe:
 			elif parts[0] == "ericsson":
 				s = "Club sandwich!"
 		else:
-			menu = ObtainTodaysMenu()
+			menu = ObtainTodaysMenu(datetime.datetime.now().weekday())
 
 		if menu:
 			s = ', '.join([hey + ": " + ho for (hey, ho) in menu])
