@@ -81,7 +81,7 @@ class Cafe:
 			s = ', '.join([hey + ": " + ho for (hey, ho) in menu])
 
 		#Replace unicode apostrophe with latin-1 compatible
-		s.replace("\u2019", "'")
+		s = s.replace("\u2019", "'")
 
 		self.irc.privmsg(chan, s.encode("latin-1", errors="ignore").decode("latin-1"))
 
