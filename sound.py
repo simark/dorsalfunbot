@@ -13,13 +13,13 @@ class Sound:
 		self.people_lastuse = {}
 		for person in self.people:
 			self.people_cooldown[person] = self.config["config"]["default_people_cooldown"]
-			self.people_lastuse[person] = time.time()
+			self.people_lastuse[person] = 0
 		self.text = self.config["words"]
 		self.text_cooldown = {}
 		self.text_lastuse = {}
 		for word in self.text:
 			self.text_cooldown[word] = self.config["config"]["default_word_cooldown"]
-			self.text_lastuse[word] = time.time()
+			self.text_lastuse[word] = 0
 
 	def on_chanmsg(self, from_, chan, msg):
 		print(from_)
