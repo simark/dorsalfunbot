@@ -43,7 +43,7 @@ class Cafe:
 	def __init__(self, irc):
 		self.irc = irc
 		self.scheduler = schedule.Scheduler()
-		self.job = self.scheduler.every().day.at("11:45").do(self.print_manger)
+		self.job = self.scheduler.every().day.at("12:45").do(self.print_manger)
 		self.cease = self.scheduler.run_continuously()
 
 
@@ -74,6 +74,12 @@ class Cafe:
 				menu = ObtainTodaysMenu(tomorrow)
 			elif parts[0] == "ericsson":
 				s = "Club sandwich!"
+			elif parts[0] == "scientist":
+				s = "Des choses aux poireaux"
+			elif parts[0] == "dejadead":
+				s = "Sandwich pain blanc et jambon"
+			elif parts[0] == "simark":
+				s = "nutella"
 		else:
 			menu = ObtainTodaysMenu(today)
 
