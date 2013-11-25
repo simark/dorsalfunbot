@@ -150,4 +150,7 @@ if __name__ == '__main__':
 			bot.mainloop()
 		except InterruptedError as e:
 			pass
+		except:
+			bot.unload_modules()
+			break
 
