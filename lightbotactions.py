@@ -9,39 +9,57 @@ valid_target = {'0': 15, '1': 16, '2': 11, '3': 12}
 valid_state = {'on': GPIO.HIGH, 'off': GPIO.LOW}
 mpd_server = {'host': 'localhost', "port": 6600}
 
-prev_vol = None
+def get_volume():
+	client = mpd.MPDClient()
+	client.connect(**mpd_server)
+	try:
+		vol = int(client.status()["volume"])
+	except:
+		vol = 70
+	
+	if vol==0:
+		vol = 70
+
+	return vol
+
+prev_vol = get_volume()
 
 def turn_off(greeting = False):
 	global prev_vol
 	client = mpd.MPDClient()
-	client.connect(**mpd_server)
 	try:
-		prev_vol = int(client.status()["volume"])
-	except e:
-		prev_vol = 60
-	print("Got "+str(prev_vol))
-	if greeting:
-		try:
-			subprocess.check_call(["aplay", "/home/simark/audio_samples/graine.wav"])
-		except:
-			pass
-	client.setvol(0)
-	client.disconnect()
+		client.connect(**mpd_server)
+		vol = int(client.status()["volume"])
+		if vol:
+			prev_vol = vol
+			print("Got "+str(prev_vol))
+			if greeting:
+				try:
+					subprocess.check_call(["aplay", "/home/simark/audio_samples/graine.wav"])
+				except:
+					pass
+			client.setvol(0)
+			client.disconnect()
+	except mpd.ConnectionError:
+		pass
 
 def turn_on(greeting = False):
 	global prev_vol
 	if prev_vol:
 		client = mpd.MPDClient()
-		client.connect(**mpd_server)
-		print("Set "+str(prev_vol))
-		client.setvol(prev_vol)
-		prev_vol = None
-		client.disconnect()
-		if greeting:
-			try:
-				subprocess.check_call(["aplay", "/home/simark/audio_samples/francois.wav"])
-			except:
-				pass
+		try:
+			client.connect(**mpd_server)
+			print("Set "+str(prev_vol))
+			client.setvol(prev_vol)
+			prev_vol = None
+			client.disconnect()
+			if greeting:
+				try:
+					subprocess.check_call(["aplay", "/home/simark/audio_samples/francois.wav"])
+				except:
+					pass
+		except mpd.ConnectionError:
+			pass
 
 def get_plafond_status():
 
@@ -56,13 +74,26 @@ def get_plafond_status():
 
 def handler(signum, frame):
 	print("SIGNAL COT")
-	presence = get_plafond_status()
+	adjust_music()
 
-	if presence:
-		turn_on(True)
-	else:
-		turn_off(True)
+def adjust_music():
+	print("ajustons la musique!")
+	try:
+		presence = get_plafond_status()
 
+		if presence:
+			print("La lumière est allumée!")
+			turn_on(True)
+		else:
+			print("La lumière est éteinte!")
+			turn_off(True)
+	except:
+		print("Erreur de l'ajustement de la musique")
+
+import schedule
+scheduler = schedule.Scheduler()
+scheduler.every(15).minutes.do(adjust_music)
+stop = scheduler.run_continuously()
 
 class LightbotActions:
 	def __init__(self, irc):
@@ -75,6 +106,12 @@ class LightbotActions:
 		signal.signal(signal.SIGUSR1, handler)
 		#This next line doesn't seem to do anything
 		signal.siginterrupt(signal.SIGUSR1, False)
+
+	def dispose(self):
+		global stop
+		global scheduler
+		scheduler.clear()
+		stop.set()
 
 	def action_light_turn(self, from_, chan, msg, parts):
 		if len(parts) != 2:
