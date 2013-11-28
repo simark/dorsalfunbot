@@ -37,7 +37,7 @@ class Meteo:
 			content = content.decode('utf-8')
 			
 			# température (°C)
-			meteo['temp'] = Meteo._get_part('ature.*</dt>\s*<dd>\s*([\d,]+)', content)
+			meteo['temp'] = Meteo._get_part('ature.*</dt>\s*<dd>\s*(-?[\d,]+)', content)
 			
 			# condition
 			meteo['cond'] = Meteo._get_part('ition.*</dt>\s*<dd>(.+)</dd>', content)
