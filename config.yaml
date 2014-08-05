@@ -30,3 +30,6 @@ modules:
   - name: meteo
     class: Meteo
     action: meteo
+  - name: translate
+    class: Translate
+    action: translate
