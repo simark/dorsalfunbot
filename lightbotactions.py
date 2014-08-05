@@ -89,12 +89,11 @@ def adjust_music():
 			turn_off(True)
 	except:
 		print("Erreur de l'ajustement de la musique")
-
-import schedule
+"""import schedule
 scheduler = schedule.Scheduler()
 scheduler.every(15).minutes.do(adjust_music)
 stop = scheduler.run_continuously()
-
+"""
 class LightbotActions:
 	def __init__(self, irc):
 		GPIO.setmode(GPIO.BOARD)
@@ -108,11 +107,11 @@ class LightbotActions:
 		signal.siginterrupt(signal.SIGUSR1, False)
 
 	def dispose(self):
-		global stop
+		"""global stop
 		global scheduler
 		scheduler.clear()
 		stop.set()
-
+		"""
 	def action_light_turn(self, from_, chan, msg, parts):
 		if len(parts) != 2:
 			return

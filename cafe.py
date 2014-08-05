@@ -42,14 +42,14 @@ def ObtainTodaysMenu(today):
 class Cafe:
 	def __init__(self, irc):
 		self.irc = irc
-		self.scheduler = schedule.Scheduler()
+		"""self.scheduler = schedule.Scheduler()
 		self.job = self.scheduler.every().day.at("12:45").do(self.print_manger)
-		self.cease = self.scheduler.run_continuously()
+		self.cease = self.scheduler.run_continuously()"""
 
 
 	def dispose(self):
-		self.scheduler.clear()
-		self.cease.set()
+		"""self.scheduler.clear()
+		self.cease.set()"""
 		pass
 
 	def print_manger(self):

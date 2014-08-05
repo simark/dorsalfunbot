@@ -5,16 +5,16 @@ class Translate:
 		self.irc = irc
 
 	def on_chanmsg(self, from_, chan, msg):
-		translated Translate.get_translation()
+		translated = Translate.get_translation()
 		if (translated == None):
-            self.irc.privmsg(chan, "Could not translate...")
+			self.irc.privmsg(chan, "Could not translate...")
 		else:
-            self.irc.privmsg(chan, "En Anglais : " + translated)
+			self.irc.privmsg(chan, "En Anglais : " + translated)
 	
 	def get_translation():
 		try:
-		    gs = goslate.Goslate()
-            trans_text = gs.translate('Se creuser la tête', 'en')
+			gs = goslate.Goslate()
+			trans_text = gs.translate('Se creuser la tête', 'en')
 			return trans_text
 		except:
 			return None
