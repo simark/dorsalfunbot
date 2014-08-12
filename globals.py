@@ -1,4 +1,3 @@
 def init():
-	global g_buffmsg
-	g_buffmsg = None
-
+    global g_buffmsg
+    g_buffmsg = None
