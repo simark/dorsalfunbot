@@ -1,4 +1,5 @@
 import goslate
+import globals
 
 class Translate:
 	def __init__(self, irc):
@@ -14,7 +15,7 @@ class Translate:
 	def get_translation():
 		try:
 			gs = goslate.Goslate()
-			trans_text = gs.translate('Se creuser la tête', 'en')
+			trans_text = gs.translate(globals.g_buffmsg, 'en')
 			return trans_text
 		except:
 			return None
