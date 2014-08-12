@@ -1,8 +1,8 @@
 irc:
   server: irc.oftc.net
-  nick: DorsalFunBot
-  user: DorsalFunBot
-  encoding: latin
+  nick: WololoPiBot
+  user: WololoPiBot
+  encoding: utf-8
   tls: False
   #tls_verify: False
 
@@ -10,15 +10,15 @@ channels:
 - "#dorsal-fun"
 
 modules:
-  - name: lightbotactions
-    class: LightbotActions
-    action: light
+#  - name: lightbotactions
+#    class: LightbotActions
+#    action: light
   - name: fun
     class: Fun
     action: fun
-  - name: music
-    class: Music
-    action: music
+#  - name: music
+#    class: Music
+#    action: music
   - name: crazy
     class: Crazy
     action: crazy
