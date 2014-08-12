@@ -1,9 +1,9 @@
-
 from bs4 import BeautifulSoup
 import http.client
 import datetime
 import unidecode
-import schedule
+import requests
+# import schedule
 
 def EatSpaces(s):
 	new_s = s.replace('  ', ' ')
@@ -14,9 +14,7 @@ def EatSpaces(s):
 	return s.strip()
 
 def ObtainTodaysMenu(today):
-	conn = http.client.HTTPConnection("www.polymtl.ca")
-	req = conn.request("GET", "/vie/cafe/")
-	page = conn.getresponse().read()
+	page = requests.get('http://www.polymtl.ca/vie/cafe/').text
 
 	b = BeautifulSoup(page)
 
@@ -24,6 +22,8 @@ def ObtainTodaysMenu(today):
 
 	divContenu = b.find("div", id = "contenu-texte")
 	rows = divContenu.find_all("tr")
+	if not rows:
+		return None
 	rows.pop(0)
 
 	for row in rows:
@@ -42,14 +42,14 @@ def ObtainTodaysMenu(today):
 class Cafe:
 	def __init__(self, irc):
 		self.irc = irc
-		self.scheduler = schedule.Scheduler()
+		"""self.scheduler = schedule.Scheduler()
 		self.job = self.scheduler.every().day.at("12:45").do(self.print_manger)
-		self.cease = self.scheduler.run_continuously()
+		self.cease = self.scheduler.run_continuously()"""
 
 
 	def dispose(self):
-		self.scheduler.clear()
-		self.cease.set()
+		"""self.scheduler.clear()
+		self.cease.set()"""
 		pass
 
 	def print_manger(self):
@@ -70,8 +70,12 @@ class Cafe:
 		if len(parts) > 0:
 			if parts[0] in jours:
 				menu = ObtainTodaysMenu(jours[parts[0]])
+				if not menu:
+					s = 'Impossible d\'obtenir le menu :('
 			elif parts[0] == "demain":
 				menu = ObtainTodaysMenu(tomorrow)
+				if not menu:
+					s = 'Impossible d\'obtenir le menu :('
 			elif parts[0] == "ericsson":
 				s = "Club sandwich!"
 			elif parts[0] == "scientist":
@@ -82,10 +86,11 @@ class Cafe:
 				s = "nutella"
 		else:
 			menu = ObtainTodaysMenu(today)
+			if not menu:
+				s = 'Impossible d\'obtenir le menu :('
 
 		if menu:
 			s = ', '.join([hey + ": " + ho for (hey, ho) in menu])
-
 		#Replace unicode apostrophe with latin-1 compatible
 		s = s.replace("\u2019", "'")
 

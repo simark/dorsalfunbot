@@ -6,13 +6,15 @@ import subprocess
 import os
 import signal
 
+import globals
 
 class DorsalFunBot(lurklib.Client):
 	def __init__(self, config):
 		super(DorsalFunBot, self).__init__(**config['irc'])
 		self.modules = {}
 		self.load_modules(config['modules'])
-	
+		globals.init()
+
 	def load_modules(self, moduleslist):
 		try:
 			modules = {}
@@ -81,6 +83,8 @@ class DorsalFunBot(lurklib.Client):
 						module.on_chanmsg(from_, chan, msg)
 					except Exception as e:
 						print("Error in module "+module.__class__.__name__+": " + str(e))
+			else:
+				globals.g_buffmsg = msg
 		except IndexError:
 			pass
 
