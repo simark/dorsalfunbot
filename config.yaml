@@ -33,3 +33,6 @@ modules:
   - name: translate
     class: Translate
     action: translate
+  - name: youtube
+    class: Youtube
+ 
