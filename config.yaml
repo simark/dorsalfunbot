@@ -35,4 +35,6 @@ modules:
     action: translate
   - name: youtube
     class: Youtube
- 
+  - name: publish
+    class: Publish
+    action: publish
