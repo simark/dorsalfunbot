@@ -24,7 +24,7 @@ class Translate:
 				header = 'En -> Fr : '
 			else:
 				to_lang = 'en'
-				header = from_lang+' -> En : '
+				header = '{} -> En : '.format(from_lang)
 			trans_text = gs.translate(globals.g_buffmsg, to_lang)
 			return header+trans_text
 		except:
