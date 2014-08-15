@@ -12,13 +12,23 @@ class Translate:
         if (translated == None):
             self.irc.privmsg(chan, "Could not translate...")
         else:
-            self.irc.privmsg(chan, "En Anglais : " + translated)
+            self.irc.privmsg(chan, translated)
 
     def get_translation():
         try:
             gs = goslate.Goslate()
-            trans_text = gs.translate(globals.g_buffmsg, 'en')
-            return trans_text
+            from_lang = gs.detect(globals.g_buffmsg)
+            if from_lang == 'fr':
+                to_lang = 'en'
+                header = 'Fr -> En : '
+            elif from_lang == 'en':
+                to_lang = 'fr'
+                header = 'En -> Fr : '
+            else:
+                to_lang = 'en'
+                header = '{} -> En : '.format(from_lang)
+            trans_text = gs.translate(globals.g_buffmsg, to_lang)
+            return header + trans_text
         except:
             return None
 
