@@ -11,7 +11,7 @@ class Amihot:
         if (cputemp == None):
             self.irc.privmsg(chan, "Can't determine my hotness...")
         else:
-            self.irc.privmsg(chan, "CPU is at {} \u2103".format(cputemp)")
+            self.irc.privmsg(chan, "CPU is at {} \u2103".format(cputemp))
 
     def get_cpu_temp():
         try:
