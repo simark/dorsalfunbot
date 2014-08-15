@@ -30,12 +30,12 @@ class Publish:
 			for a in responsepage.soup.findAll('a', href=True):
 				link = a['href']	
 				if 'pdf' in link:
-					pdfurl = 'http://apps.pdos.lcs.mit.edu'+link
+					pdfurl = 'http://apps.pdos.lcs.mit.edu{}'.format(link)
 					url = shorten(pdfurl)
 			if (url == None):
 				self.irc.privmsg(chan, "This is immoral! I can't bear the burden of this..")
 			else:
-				self.irc.privmsg(chan, title+" : "+url)
+				self.irc.privmsg(chan, '{} : {}'.format(title, url))
 				
 	def on_chanmsg(self, from_, chan, msg):
 		authors = msg.split(',')[0:]
