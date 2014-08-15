@@ -38,3 +38,6 @@ modules:
   - name: publish
     class: Publish
     action: publish
+  - name: amihot
+    class: Amihot
+    action: amihot
