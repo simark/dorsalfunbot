@@ -41,3 +41,6 @@ modules:
   - name: amihot
     class: Amihot
     action: amihot
+  - name: xkcd
+    class: Xkcd
+    action: xkcd
