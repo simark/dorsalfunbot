@@ -10,14 +10,14 @@ class Xkcd:
 
     def find_todays_xkcd(self, chan):
         comic_meta = requests.post('http://xkcd.com/info.0.json')
-        title = json.loads(comic_meta.text)['safe_title']
-        number = json.loads(comic_meta.text)['num']
+        data = json.loads(comic_meta.text)
+        title = data['safe_title']
+        number = data['num']
         text = '{} : http://xkcd.com/{}'.format(title, number)
         self.irc.privmsg(chan, text)
 
     def find_relevant_xkcd(self, chan, query):
         br = mechanicalsoup.Browser()
-        targeturl = ''
         targeturl += 'http://relevantxkcd.appspot.com/process?action=xkcd&query={}'.format(
             query)
         response = br.get(targeturl)
@@ -44,7 +44,7 @@ class Xkcd:
 
     def on_chanmsg(self, from_, chan, msg):
         data = msg.split()[1:]
-        if len(data) <= 0:
+        if len(data) == 0:
             self.find_todays_xkcd(chan)
         else:
             query = ''
