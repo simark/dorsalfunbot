@@ -25,21 +25,19 @@ class Xkcd:
         data = extract.split()
         comics_id = data[2::2]
 
-        if len(comics_id) > 3:
-            end = 3
-        else:
-            end = len(comics_id)
+        # Limit to 3 results
+        comics_id = comics_id[:3]
 
-        for x in range(0, end):
+        for comic_id in comics_id:
             comic_meta = requests.post(
-                'http://xkcd.com/{}/info.0.json'.format(comics_id[x]))
-            if comic_meta.status_code == 404:
+                'http://xkcd.com/{}/info.0.json'.format(comic_id))
+            if comic_meta.status_code != 200:
                 self.irc.privmsg(
                     chan, "There seems to be some issue getting the relevant xkcd..")
             else:
                 title = json.loads(comic_meta.text)['safe_title']
                 text = '{} : http://xkcd.com/{}'.format(
-                    title, comics_id[x])
+                    title, comic_id)
                 self.irc.privmsg(chan, text)
 
     def on_chanmsg(self, from_, chan, msg):
