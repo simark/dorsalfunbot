@@ -30,13 +30,13 @@ class Translate:
             from_lang = gs.detect(to_translate)
             if from_lang == 'fr':
                 to_lang = 'en'
-                header = 'Fr -> En:'
+                header = 'fr -> en:'
             elif from_lang == 'en':
                 to_lang = 'fr'
-                header = 'En -> Fr:'
+                header = 'en -> fr:'
             else:
                 to_lang = 'en'
-                header = '{} -> En:'.format(from_lang)
+                header = '{} -> en:'.format(from_lang)
             trans_text = gs.translate(to_translate, to_lang)
             return '{} {}'.format(header, trans_text)
         except:
