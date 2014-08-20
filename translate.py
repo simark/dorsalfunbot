@@ -40,6 +40,6 @@ class Translate:
             return None
 
     def halp(self):
-        return ['Translate French text to English, or other languages to French.',
+        return ['Translate English text to French, or other languages to English.',
                 '!translate: Translate last statement.',
                 '!translate <text>: Translate <text>.']
