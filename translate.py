@@ -28,10 +28,7 @@ class Translate:
         try:
             gs = goslate.Goslate()
             from_lang = gs.detect(to_translate)
-            if from_lang == 'fr':
-                to_lang = 'en'
-                header = 'fr -> en:'
-            elif from_lang == 'en':
+            if from_lang == 'en':
                 to_lang = 'fr'
                 header = 'en -> fr:'
             else:
