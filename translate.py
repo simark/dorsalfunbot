@@ -8,12 +8,9 @@ class Translate:
         self.irc = irc
 
     def on_chanmsg(self, from_, chan, msg):
-        parts = msg.split(max=1)
+        parts = msg.split(maxsplit=1)
 
-        # Remote !translate
-        parts.pop(0)
-
-        if len(parts) > 0:
+        if len(parts) > 1:
             to_translate = parts[1]
         else:
             to_translate = globals.g_buffmsg
