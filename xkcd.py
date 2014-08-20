@@ -18,7 +18,7 @@ class Xkcd:
 
     def find_relevant_xkcd(self, chan, query):
         br = mechanicalsoup.Browser()
-        targeturl += 'http://relevantxkcd.appspot.com/process?action=xkcd&query={}'.format(
+        targeturl = 'http://relevantxkcd.appspot.com/process?action=xkcd&query={}'.format(
             query)
         response = br.get(targeturl)
         extract = response.soup.text
