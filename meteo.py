@@ -46,31 +46,31 @@ class Meteo:
 
             # température (°C)
             meteo['temp'] = Meteo._get_part(
-                'ature.*</dt>\s*<dd>\s*(-?[\d,]+)', content)
+                'ature.*</dt>\s*<dd[^>]*>\s*(-?[\d,]+)', content)
 
             # condition
             meteo['cond'] = Meteo._get_part(
-                'ition.*</dt>\s*<dd>(.+)</dd>', content)
+                'ition.*</dt>\s*<dd[^>]*>(.+)</dd>', content)
 
             # pression (kPa)
             meteo['press'] = Meteo._get_part(
-                'ression.*</dt>\s*<dd>\s*([\d,]+)', content)
+                'ression.*</dt>\s*<dd[^>]*>\s*([\d,]+)', content)
 
             # humidité (%)
             meteo['humid'] = Meteo._get_part(
-                'midit.*</dt>\s*<dd>\s*([\d,]+)', content)
+                'midit.*</dt>\s*<dd[^>]*>\s*([\d,]+)', content)
 
             # vent (km/h)
             meteo['wind'] = Meteo._get_part(
-                '[Vv]ent.*</dt>\s*<dd.*?>([^<]+)', content)
+                '[Vv]ent.*</dt>\s*<dd[^>]*>([^<]+)', content)
 
             # visibilité (km)
             meteo['vis'] = Meteo._get_part(
-                'isibilit.*</dt>\s*<dd>\s*([\d,]+)', content)
+                'isibilit.*</dt>\s*<dd[^>]*>\s*([\d,]+)', content)
 
             # tendance
             meteo['tend'] = Meteo._get_part(
-                'endance.*</dt>\s*<dd>(.+)</dd>', content)
+                'endance.*</dt>\s*<dd[^>]*>(.+)</dd>', content)
 
             return meteo
         except:
