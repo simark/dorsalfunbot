@@ -12,7 +12,18 @@ def EatSpaces(s):
         s = new_s
         new_s = s.replace('  ', ' ')
 
-    return s.strip()
+    new_s = new_s.replace('\n', ' ')
+    while new_s != s:
+        s = new_s
+        new_s = s.replace('\n', ' ')
+
+
+    new_s = new_s.replace('\x92', '\'')
+    while new_s != s:
+        s = new_s
+        new_s = s.replace('\x92', '\'')
+
+    return new_s.strip()
 
 
 def ObtainTodaysMenu(today):
