@@ -1,5 +1,6 @@
 import httplib2
 import re
+import bs4
 
 
 class Meteo:
@@ -22,6 +23,18 @@ class Meteo:
                 chan, '    pression :   {} kPa ({})'.format(meteo['press'], meteo['tend']))
             self.irc.privmsg(
                 chan, '    visibilité : {} km'.format(meteo['vis']))
+
+	    self.irc.privmsg(
+                chan, '')
+	    self.irc.privmsg(
+                chan, 'Messages du Gouvernement du Canada:')
+
+	    for msg in meteo['messages']:
+                self.irc.privmsg(
+                    chan, '* {}'.format(msg[0]))
+                self.irc.privmsg(
+                    chan, '    {}'.format(msg[1]))
+
 
     def _get_part(regex, content):
         m = re.search(regex, content)
@@ -71,6 +84,16 @@ class Meteo:
             # tendance
             meteo['tend'] = Meteo._get_part(
                 'endance.*</dt>\s*<dd[^>]*>(.+)</dd>', content)
+            meteo['messages'] = []
+
+            soup = bs4.BeautifulSoup(content)
+
+            nttvs = soup.find('aside', class_='gc-nttvs')
+            links = nttvs.find_all('a')
+            for l in links:
+                href = 'http://meteo.gc.ca' + l['href']
+                text = l.find('h3').text
+                meteo['messages'].append((text, href))
 
             return meteo
         except:
