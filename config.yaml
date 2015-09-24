@@ -1,3 +1,6 @@
+system:
+  pidfile: /home/etudiant/simark/dorsalfunbot-pid
+
 irc:
   server: irc.oftc.net
   nick: WololoPiBot
