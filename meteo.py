@@ -86,17 +86,18 @@ class Meteo:
                 'endance.*</dt>\s*<dd[^>]*>(.+)</dd>', content)
             meteo['messages'] = []
 
-            soup = bs4.BeautifulSoup(content)
-
-            nttvs = soup.find('aside', class_='gc-nttvs')
-            links = nttvs.find_all('a')
-            for l in links:
-                href = 'http://meteo.gc.ca' + l['href']
-                text = l.find('h3').text
-                meteo['messages'].append((text, href))
+#            soup = bs4.BeautifulSoup(content, "html.parser")
+#
+#            nttvs = soup.find('aside', class_='gc-nttvs')
+#            links = nttvs.find_all('a')
+#            for l in links:
+#                href = 'http://meteo.gc.ca' + l['href']
+#                text = l.find('h3').text
+#                meteo['messages'].append((text, href))
 
             return meteo
-        except:
+        except Exception as e:
+            print(e)
             return None
 
     def halp(self):
