@@ -29,7 +29,7 @@ def EatSpaces(s):
 def ObtainTodaysMenu(today):
     page = requests.get('http://www.polymtl.ca/vie/cafe/').text
 
-    b = BeautifulSoup(page)
+    b = BeautifulSoup(page, 'html.parser')
 
     menu = [[], [], [], [], [], []]
 
