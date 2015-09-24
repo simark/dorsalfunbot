@@ -24,12 +24,12 @@ class Meteo:
             self.irc.privmsg(
                 chan, '    visibilité : {} km'.format(meteo['vis']))
 
-	    self.irc.privmsg(
+            self.irc.privmsg(
                 chan, '')
-	    self.irc.privmsg(
+            self.irc.privmsg(
                 chan, 'Messages du Gouvernement du Canada:')
 
-	    for msg in meteo['messages']:
+            for msg in meteo['messages']:
                 self.irc.privmsg(
                     chan, '* {}'.format(msg[0]))
                 self.irc.privmsg(
