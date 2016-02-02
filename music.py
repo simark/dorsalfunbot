@@ -52,7 +52,7 @@ class Music:
 
         status = client.status()
         # if (status['state'] == 'stop') :
-        #	client.play(status['nextsong'])
+        #    client.play(status['nextsong'])
 
         liste = client.playlist()
         if ('song' in status):

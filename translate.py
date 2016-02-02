@@ -1,5 +1,5 @@
-import goslate
 import globals
+from mstranslator import Translator
 
 
 class Translate:
@@ -23,17 +23,18 @@ class Translate:
 
     def get_translation(to_translate):
         try:
-            gs = goslate.Goslate()
-            from_lang = gs.detect(to_translate)
+            t = Translator('dorsalfunbot', 'lWJjt3W86DqQX5J+VGCDsvD3LU9/eZFvG0VQj4k6J/Y=')
+            from_lang = t.detect_lang(to_translate)
             if from_lang == 'en':
                 to_lang = 'fr'
                 header = 'en -> fr:'
             else:
                 to_lang = 'en'
                 header = '{} -> en:'.format(from_lang)
-            trans_text = gs.translate(to_translate, to_lang)
+            trans_text = t.translate(to_translate, lang_from=from_lang, lang_to=to_lang)
             return '{} {}'.format(header, trans_text)
-        except:
+        except Exception as e:
+            print("Translation error: {}".format(e))
             return None
 
     def halp(self):

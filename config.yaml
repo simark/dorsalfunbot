@@ -3,8 +3,8 @@ system:
 
 irc:
   server: irc.oftc.net
-  nick: WololoPiBot
-  user: WololoPiBot
+  nick: DorsalFunBotng
+  user: DorsalFunBotng
   encoding: utf-8
   tls: False
   #tls_verify: False
@@ -41,9 +41,9 @@ modules:
   - name: publish
     class: Publish
     action: publish
-  - name: amihot
-    class: Amihot
-    action: amihot
+#  - name: amihot
+#    class: Amihot
+#    action: amihot
   - name: xkcd
     class: Xkcd
     action: xkcd
